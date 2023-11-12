@@ -5,6 +5,7 @@ const { validateBody, authenticate, upload } = require("../../middlewares");
 const router = express.Router();
 
 const { schemas } = require("../../models/user");
+const auth = require("../../controllers/auth");
 
 router.get("/current", authenticate, ctrl.getCurrent);
 
@@ -31,5 +32,8 @@ router.patch(
   upload.single("avatar"),
   ctrl.updateAvatar
 );
+
+router.get('/verify/:verificationToken', auth.verifyEmail)
+router.post('/verify', validateBody(schemas.emailSchema))
 
 module.exports = router;
